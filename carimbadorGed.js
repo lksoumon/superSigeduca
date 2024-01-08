@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Carimbador
+// @name         Carimbador GED
 // @namespace    http://tampermonkey.net/
 // @version      2023-12-26
 // @description  try to take over the world!
