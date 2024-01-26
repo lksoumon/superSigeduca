@@ -103,15 +103,15 @@ function coletaDados1(codigo) {
        //alert('O botão vai enviar a seguinte array para o link do open <br>'+a);
         n=n+1;
 
-    var sendData = function() {
-        $.post('https://192.168.2.70/Open4School/secretaria/importa_sigeduca.php', {
-            data: a
-        }, function(response) {
+   // var sendData = function() {
+      //  $.post('https://192.168.2.70/Open4School/secretaria/importa_sigeduca.php', {
+         //   data: a
+      //  }, function(response) {
 
-            console.log(response);
-            console.log('foi');
-        });
-    }
+           // console.log(response);
+           // console.log('foi');
+        //});
+    //}
 
     //if(tabelas.length>3){
         //sendData();
