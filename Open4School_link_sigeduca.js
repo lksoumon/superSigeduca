@@ -1,8 +1,7 @@
 // ==UserScript==
 // @name         Cadastro no Open4School
-// @namespace    http://tampermonkey.net/
 // @version      2024-01-23
-// @description  try to take over the world!
+// @description  Importa os dados so sigeduca para o Open
 // @author       Lucas Monteiro
 // @match        http://sigeduca.seduc.mt.gov.br/ged/hwmconaluno.aspx
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gov.br
