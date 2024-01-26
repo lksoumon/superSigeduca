@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name         Cadastro no Open4School
+// @namespace    http://tampermonkey.net/
 // @version      2024-01-23
 // @description  Importa os dados so sigeduca para o Open
 // @author       Lucas Monteiro
