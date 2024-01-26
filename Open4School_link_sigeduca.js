@@ -6,9 +6,9 @@
 // @author       Lucas Monteiro
 // @match        http://sigeduca.seduc.mt.gov.br/ged/hwmconaluno.aspx
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gov.br
-// @homepage      https://github.com/lksoumon/extratorgpe/blob/main/Open4School_link_sigeduca.js
-// @downloadURL   https://github.com/lksoumon/extratorgpe/raw/main/Open4School_link_sigeduca.js
-// @updateURL     https://github.com/lksoumon/extratorgpe/raw/main/Open4School_link_sigeduca.js
+// @homepage      https://github.com/lksoumon/superSigeduca/blob/main/Open4School_link_sigeduca.js
+// @downloadURL   https://github.com/lksoumon/superSigeduca/raw/main/Open4School_link_sigeduca.js
+// @updateURL     https://github.com/lksoumon/superSigeduca/raw/main/Open4School_link_sigeduca.js
 // @require https://code.jquery.com/jquery-3.6.0.min.js
 // @grant        none
 // ==/UserScript==
