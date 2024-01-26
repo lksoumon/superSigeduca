@@ -37,7 +37,7 @@ divCorpo.appendChild(ifrIframe1);
 parent.frames.document.getElementById('MAINFORM').removeAttribute("action");
 
 function coletaDados1(codigo) {
-
+	a='';
         //Dados gerais do Aluno
         a = a + document.getElementById('span_vGERPESCODCHAR_0001').innerHTML +";"; cabecalho = "Cod Aluno;"; //Cod Aluno
         a = a + parent.frames[0].document.getElementById('span_CTLGEDALUIDINEP').innerHTML +";"; cabecalho = cabecalho+"Nº INEP;"; //Matrícula INEP
