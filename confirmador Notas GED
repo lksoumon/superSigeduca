@@ -1,0 +1,266 @@
+// ==UserScript==
+// @name         Confirmador de notas/conceitos GED
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  Confirma as notas e conceitos no sitema Sigeduca GED!
+// @author       Lucas de Souza Monteiro
+// @match        http://sigeduca.seduc.mt.gov.br/ged/hwmfinalizaperiodoavaliacao.aspx?HWGedLancarAvaliacao.aspx*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=gov.br
+// @grant        none
+// ==/UserScript==
+var erros = '';
+var carregado = '';
+//estilo dos botões
+var styleSCT = document.createElement('style');
+styleSCT.type = 'text/css';
+styleSCT.innerHTML = 'span.button-like{display:inline-block;padding:12px 24px;margin:10px;background-color:#065195;color:#fff;font-weight:bold;border:1px solid #065195;border-radius:4px;cursor:pointer;text-align:center;text-decoration:none}span.button-like:hover{background-color:#0056b3;border-color:#0056b3}';
+document.getElementsByTagName('head')[0].appendChild(styleSCT);
+function addCopyBtn(ele,v) {
+    //console.log('as');
+        let btn = document.createElement("span");
+        btn.innerHTML = "Confirmar "+v+" bim";
+        btn.className = "button-like";
+        btn.onclick = () => {
+            //alert('foi');
+            CONFI('vGEDMATDISCAVAREF', v);
+
+            //carrega();
+        }
+
+        ele.insertBefore(btn, ele.firstChild);
+    }
+
+function selectElement(id, valueToSelect) {
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
+
+function getSelectedValues(selectElement) {
+      var selectedValues = [];
+      var options = selectElement.options;
+
+      for (var i = 0; i < options.length; i++) {
+        if (i == 0) {
+
+        }else{selectedValues.push(options[i].value);}
+      }
+
+      return selectedValues;
+    }
+function arrayToHtmlTable(dataArray) {
+      // Abrir uma nova janela
+      var novaJanela = window.open('', '_blank');
+
+      // Criar o conteúdo HTML para a tabela
+      var tabelaHTML = '<head><title>Erros de confirmação de notas/conceitos</title></head><body><table border="1"><thead><tr>';
+
+      // Adicionar cabeçalho da tabela
+      if (dataArray.length > 1) {
+        dataArray[0].forEach(function (coluna) {
+          tabelaHTML += '<th>' + coluna + '</th>';
+        });
+        tabelaHTML += '</tr></thead><tbody>';
+
+        // Adicionar linhas da tabela
+        for (var i = 1; i < dataArray.length; i++) {
+          tabelaHTML += '<tr>';
+          dataArray[i].forEach(function (valor) {
+            tabelaHTML += '<td>' + valor + '</td>';
+          });
+          tabelaHTML += '</tr>';
+        }
+
+        tabelaHTML += '</tbody></table></body>';
+
+        // Adicionar tabela ao conteúdo da nova janela
+        novaJanela.document.write(tabelaHTML);
+      } else {
+        // Se a array estiver vazia, exibir uma mensagem na nova janela
+        novaJanela.document.write('<p>Nenhum erro encontrado pelo script!</p>');
+      }
+    }
+
+//função principal
+async function CONFI(el, bimestre){
+    var output = [['Nome','cod','turma','disciplina','erro']];
+    // pega dados necessários de bimestre e matérias
+    let element = document.getElementById(el);
+    element.value = bimestre;
+    const eek = document.getElementById("vDISCIPLINAAREACOD");
+    var selectedValues = getSelectedValues(eek);
+
+    //---- Loop para interagir com todas as matérias da matriz
+  for (let i = 0; i < selectedValues.length; i++) {
+      console.log(`Iteração ${i} iniciada.`);
+      let conditionMet = false;
+      let prosseguir = 0;
+      while (!conditionMet) {
+      // Simula uma condição que pode demorar um tempo definido
+      await delay(3000);
+
+      // Simula a verificação da condição
+      if (prosseguir === 1) {
+        conditionMet = true;
+      } else {
+        //console.log(`A condição ainda não foi atendida na iteração ${i}.`);
+
+
+
+    selectElement('vDISCIPLINAAREACOD', selectedValues[i]);
+    eek.onchange();
+          // esse primeiro intervalo verifica a mutation abaixo para confirmar se a tabela dos dados dos alunos já foi atualizada --------------------
+    var interval = setInterval(function() {
+        //console.log('Interval 1 Running');
+        if( carregado == "undefined" || carregado == ""){
+            //Do Something While Waiting / Spinner Gif etc.
+        }else{
+            //console.log('Interval 1 Stopped');
+            clearInterval(interval);
+
+            //console.log(document.getElementById("GriddetalhesContainerRow_0001"));
+            var tb = document.getElementById("GriddetalhesContainerRow_0001");
+                if(tb != null){
+                    //console.log('hitar conf');
+                    (function (){
+                        document.getElementsByClassName("btnConfirmar")[0].click();
+                    })();
+                    carregado = '';
+
+                }
+
+
+                // esse intervalo dentro de outro intervalor é para aguardar a página carregar novamente após clicar o botão confirmar --------------------
+                var interval2 = setInterval(function() {
+                    //console.log('Interval 2 Running');
+                    if( carregado == "undefined" || carregado == ""){
+                        //Do Something While Waiting / Spinner Gif etc.
+                    }else{
+                        //console.log('Interval 2 Stopped');
+                        clearInterval(interval2);
+
+                        carregado = '';
+
+                        var value = eek.value;
+                        var text = eek.options[eek.selectedIndex].text;
+                        erros = erros +" <h6> " + text + ":</h6> ";
+
+                        tb = document.getElementById("GriddetalhesContainerRow_0001");
+                        if(tb != null){
+                            let num = 0;
+                            let tamanhoTabela = parent.frames[0].document.getElementById('GriddetalhesContainerTbl').rows.length;
+
+                            //var tabelado = document.getElementById("GriddetalhesContainerTbl").rows;
+                            //console.log(tabelado[1].outerText);
+                             if( tamanhoTabela>1){
+                                 for (var i = 1; i < tamanhoTabela; i++){
+
+                                     let num = ("0000" + i).slice(-4);
+
+                                     let aluno = document.getElementById('span_vGEDALUNOMGRID_'+num).innerText.trim();
+                                     let cod = document.getElementById('span_vGEDALUCODGRID_'+num).innerText.trim();
+                                     let turma = document.getElementById('span_vGERTURSAL').innerText.trim();
+                                     let disciplina = eek.options[eek.selectedIndex].text;
+
+                                     let qtdeNaoConf = parseInt(document.getElementById('span_vTOTQTDPRESENCASN_'+num).innerText.trim())+parseInt(document.getElementById('span_vTOTQTDFALTASN_'+num).innerText.trim());
+                                     let qtdeConf = parseInt(document.getElementById('span_vTOTPRESENCAS_'+num).innerText.trim())+parseInt(document.getElementById('span_vTOTFALTAS_'+num).innerText.trim());
+                                     console.log(qtdeConf,qtdeNaoConf);
+                                     if(qtdeNaoConf > 0){
+                                         output.push([aluno,cod,turma,disciplina,'Presenças não confirmadas']);
+                                         //erros = erros + "Presenças não confirmadas;";
+                                     }
+                                     if(qtdeNaoConf == 0 && qtdeConf == 0){
+                                         output.push([aluno,cod,turma,disciplina,'Presenças não lançadas']);
+                                         //erros = erros + "Presenças não lançadas;";
+                                     }
+                                     if(qtdeNaoConf == 0 && qtdeConf > 0){
+                                         output.push([aluno,cod,turma,disciplina,'Erro não identificado pelo script']);
+                                         //erros = erros + "Erro não identificado pelo script;";
+                                     }
+
+                                 }
+                             }
+
+                            
+
+                        }
+
+                        prosseguir = 1;
+
+                        //console.log(erros);
+                    }
+                }, 1000);
+                // fim do  intervalo dentro do intervalo
+            }
+
+
+
+
+    }, 1000);
+          //fim do primeiro intervalo
+      }
+      }
+    //console.log(erros);
+    console.log(`Iteração ${i} concluída.`);
+      if(i+1 == selectedValues.length){
+          arrayToHtmlTable(output);
+          //console.log(output);
+
+        }
+  } //fim do loop para interagir com todas as matérias do bimestre
+
+
+
+
+}
+
+async function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+
+(function() {
+    'use strict';
+
+    // verfica se a tabela dos alunos atualizou para poder confirmar o diário -----------------
+     // Select the node that will be observed for mutations
+     const targetNode = document.getElementById("GriddetalhesContainerDiv");
+
+     // Options for the observer (which mutations to observe)
+     const config = { attributes: true, childList: true, subtree: true };
+
+     // Callback function to execute when mutations are observed
+     const callback = (mutationList, observer) => {
+         for (const mutation of mutationList) {
+              if (mutation.type === "childList") {
+                //console.log("A child node has been added or removed.");
+             } else if (mutation.type === "attributes") {
+                //console.log(`The ${mutation.attributeName} attribute was modified.`);
+
+                if (mutation.attributeName == "gxgridid"){
+                    //carregado = "sim";
+                    console.log(carregado);
+                }
+
+            }
+        }
+     };
+
+     // Create an observer instance linked to the callback function
+     const observer = new MutationObserver(callback);
+
+     // Start observing the target node for configured mutations
+     observer.observe(targetNode, config);
+
+    //------------------------
+
+    const bim = document.getElementById("vGEDMATDISCAVAREF");
+    //console.log(bim);
+    var bimes = getSelectedValues(bim);
+
+    for (var i = 0; i < bimes.length; i++) {
+        addCopyBtn(document.getElementById("TABELASELECAO"),bimes[i]);
+    }
+
+    // Your code here...
+})();
