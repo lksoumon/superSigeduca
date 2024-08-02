@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name         Importação open4School
-// @fullname      Importação open4School
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Faz a importação de dados entre sigeduca e Open
 // @author       Lucas Monteiro
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @match        *sigeduca.seduc.mt.gov.br/ged/hwmgrhturma.aspx?*
+// @match        https://sigeduca.seduc.mt.gov.br/ged/hwmgrhturma.aspx?*
 // @grant        none
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @homepage      https://github.com/lksoumon/superSigeduca/blob/main/Importacao_open4School.js
