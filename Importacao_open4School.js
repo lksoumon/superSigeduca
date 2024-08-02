@@ -10,8 +10,8 @@
 // @grant        none
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @homepage      https://github.com/lksoumon/superSigeduca/blob/main/Importacao_open4School.js
-// @downloadURL   https://github.com/lksoumon/superSigeduca/raw/main/Importacao_open4School.js
-// @updateURL     https://github.com/lksoumon/superSigeduca/raw/main/Importacao_open4School.js
+// @downloadURL   https://raw.githubusercontent.com/lksoumon/superSigeduca/main/Importacao_open4School.js
+// @updateURL     https://raw.githubusercontent.com/lksoumon/superSigeduca/main/Importacao_open4School.js
 // ==/UserScript==
 
 let turmaNome;
