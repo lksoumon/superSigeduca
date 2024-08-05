@@ -5,12 +5,9 @@
 // @description  Faz a importação de dados entre sigeduca e Open
 // @author       Lucas Monteiro
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @match        https://sigeduca.seduc.mt.gov.br/ged/hwmgrhturma.aspx?*
+// @match        http://sigeduca.seduc.mt.gov.br/ged/hwmgrhturma.aspx?*
 // @grant        none
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
-// @homepage      https://github.com/lksoumon/superSigeduca/blob/main/Importacao_open4School.js
-// @downloadURL   https://raw.githubusercontent.com/lksoumon/superSigeduca/main/Importacao_open4School.js
-// @updateURL     https://raw.githubusercontent.com/lksoumon/superSigeduca/main/Importacao_open4School.js
 // ==/UserScript==
 
 let turmaNome;
